@@ -31,7 +31,7 @@ class Buffer():
     def __init__(self, filename, text=''):
         self.filename = filename
         self.text = text
-        self.screen = curses.newwin(20,20)
+        self.screen = curses.newwin(curses.LINES-1, curses.COLS-1, 1,0)
         self.textbox = textpad.Textbox(self.screen)
 
     def edit_buffer(self):
