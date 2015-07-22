@@ -16,6 +16,9 @@ class Editor():
         self.screen.refresh()
 
     def buffer_list(self, active=''):
+        """
+        puts a list of open buffers at the top
+        """
         buflist = curses.newwin(1, curses.COLS-1, 0,0)
         if (active == ''):
             bufferlist = ["new file"]
@@ -23,8 +26,8 @@ class Editor():
         buflist.addstr(" | ".join(bufferlist))
         buflist.refresh()
 
-    def add_buffer(self, filename):
-        self.buffers[filename] = Buffer(filename)
+    def add_buffer(self, filename, text):
+        self.buffers[filename] = Buffer(filename, text)
 
     def close(self):
         """
@@ -44,5 +47,6 @@ class Buffer():
 
     def edit_buffer(self):
         self.screen.refresh()
+        self.screen.addstr(self.text)
         self.textbox.edit()
-        self.contents = self.textbox.gather()
+        self.text = self.textbox.gather()
