@@ -1,15 +1,15 @@
 import curses
-import curses.textpad as textpad
+from curses.textpad import Textbox, rectangle
 
 class Editor():
     def __init__(self, filename=''):
         self.screen = curses.initscr()
-        self.screen.refresh()
         self.buffers = {}
         curses.cbreak()
         self.screen.keypad(1)
         curses.noecho()
         curses.start_color()
+        self.screen.refresh()
     
     def test_echo(self):
         self.screen.addnstr("test string", 80)
@@ -19,7 +19,10 @@ class Editor():
         """
         puts a list of open buffers at the top
         """
+        rectangle(self.screen, 0,0, 1, curses.COLS -1)
+        self.screen.refresh()
         buflist = curses.newwin(1, curses.COLS-1, 0,0)
+        buflist.refresh()
         if (active == ''):
             bufferlist = ["new file"]
         bufferlist += list(self.buffers.keys())
@@ -48,8 +51,7 @@ class Buffer():
 
     def edit_buffer(self):
         screen = curses.newwin(curses.LINES-1, curses.COLS-1, 1,0)
-        # screen.clear()
         screen.addstr(self.text)
-        textbox = textpad.Textbox(screen)
+        textbox = Textbox(screen)
         textbox.edit()
         self.text = textbox.gather()
