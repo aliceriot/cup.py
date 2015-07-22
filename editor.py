@@ -21,7 +21,7 @@ class Editor():
         """
         rectangle(self.screen, 0,0, 2, curses.COLS -1)
         self.screen.refresh()
-        buflist = curses.newwin(1, curses.COLS-1, 1,0)
+        buflist = curses.newwin(1, curses.COLS-1, 1,1)
         buflist.refresh()
         bufferlist = []
         if (active == ''):
@@ -51,9 +51,10 @@ class Buffer():
         self.text = text
 
     def edit_buffer(self):
-        screen = curses.newwin(curses.LINES-1, curses.COLS-1, 3,0)
-        screen.addstr(self.text)
-        textbox = Textbox(screen)
+        bufscreen = curses.newwin(curses.LINES-1, curses.COLS-1, 3,0)
+        bufscreen.addstr(self.text)
+        textbox = Textbox(bufscreen)
         textbox.stripspaces = False
         textbox.edit()
-        self.text = textbox.gather()
+        self.text = bufscreen.instr(0,0)
+        bufscreen.clear()
