@@ -5,9 +5,11 @@ import curses
 
 cup = Editor()
 cup.add_buffer("blah", "trial text, will it go in?")
+cup.add_buffer("bloop", "more trial text, just some stuff blah blah bloo bloo")
 cup.buffer_list()
-cup.buffers["blah"].edit_buffer()
-cup.test_echo()
+cup.switch_buffer("blah")
+cup.switch_buffer("bloop")
+cup.switch_buffer("blah")
 cup.close()
 
 

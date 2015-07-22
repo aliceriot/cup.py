@@ -38,15 +38,18 @@ class Editor():
         curses.echo()
         curses.endwin()
 
+    def switch_buffer(self, target):
+        self.buffers[target].edit_buffer()
+
 class Buffer():
     def __init__(self, filename, text=''):
         self.filename = filename
         self.text = text
-        self.screen = curses.newwin(curses.LINES-1, curses.COLS-1, 1,0)
-        self.textbox = textpad.Textbox(self.screen)
 
     def edit_buffer(self):
-        self.screen.refresh()
-        self.screen.addstr(self.text)
-        self.textbox.edit()
-        self.text = self.textbox.gather()
+        screen = curses.newwin(curses.LINES-1, curses.COLS-1, 1,0)
+        # screen.clear()
+        screen.addstr(self.text)
+        textbox = textpad.Textbox(screen)
+        textbox.edit()
+        self.text = textbox.gather()
