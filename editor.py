@@ -15,8 +15,16 @@ class Editor():
         self.screen.addnstr("test string", 80)
         self.screen.refresh()
 
+    def buffer_list(self, active=''):
+        buflist = curses.newwin(1, curses.COLS-1, 0,0)
+        if (active == ''):
+            bufferlist = ["new file"]
+        bufferlist += list(self.buffers.keys())
+        buflist.addstr(" | ".join(bufferlist))
+        buflist.refresh()
+
     def add_buffer(self, filename):
-        self.buffers[ filename ] = Buffer(filename)
+        self.buffers[filename] = Buffer(filename)
 
     def close(self):
         """
