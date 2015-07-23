@@ -8,6 +8,8 @@ cup.add_buffer("blah", "trial text, will it go in?")
 cup.add_buffer("bloop", "more trial text, just some stuff blah blah bloo bloo")
 cup.buffer_list()
 testtext = cup.switch_buffer("blah")
+# with open("test.txt", "w") as myfile:
+#     myfile.write(testtext)
 cup.switch_buffer("bloop")
 cup.switch_buffer("blah")
 cup.close()
