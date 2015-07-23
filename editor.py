@@ -30,10 +30,6 @@ class Editor():
         curses.noecho()
         curses.start_color()
         self.screen.refresh()
-    
-    def test_echo(self):
-        self.screen.addnstr("test string", 80)
-        self.screen.refresh()
 
     def editstatus(self):
         status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
