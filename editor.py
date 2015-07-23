@@ -10,10 +10,10 @@ def gather(textbox):
     for y in range(textbox.maxy+1):
         textbox.win.move(y, 0)
         stop = textbox._end_of_line(y)
-        if stop == 0 and textbox.stripspaces:
+        if stop == 0:
             continue
         for x in range(textbox.maxx+1):
-            if textbox.stripspaces and x > stop:
+            if textbox.stripspaces and x >= stop:
                 break
             result = result + chr(curses.ascii.ascii(textbox.win.inch(y, x)))
         if textbox.maxy > 0:
