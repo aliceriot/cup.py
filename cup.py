@@ -1,5 +1,4 @@
 from editor import Editor
-from curses import textpad
 import curses
 import sys
 import os
@@ -17,4 +16,7 @@ for to_open in files_to_open:
         cup.current_buffer = to_open
 cup.buffer_list(cup.current_buffer)
 cup.switch_buffer(cup.current_buffer)
+
+cup.listen()
+
 cup.close()
