@@ -1,6 +1,26 @@
 import curses
 from curses.textpad import Textbox, rectangle
 
+def gather(textbox):
+    """
+    collect and return the contents of the window.
+    modified from the gather provided by the standard library
+    """
+    result = ""
+    for y in range(textbox.maxy+1):
+        textbox.win.move(y, 0)
+        stop = textbox._end_of_line(y)
+        if stop == 0 and textbox.stripspaces:
+            continue
+        for x in range(textbox.maxx+1):
+            if textbox.stripspaces and x > stop:
+                break
+            result = result + chr(curses.ascii.ascii(textbox.win.inch(y, x)))
+        if textbox.maxy > 0:
+            result = result + "\n"
+    return result
+
+
 class Editor():
     def __init__(self, filename=''):
         self.screen = curses.initscr()
@@ -49,6 +69,7 @@ class Buffer():
     def __init__(self, filename, text=''):
         self.filename = filename
         self.text = text
+        
 
     def edit_buffer(self):
         bufscreen = curses.newwin(curses.LINES-1, curses.COLS-1, 3,0)
@@ -56,5 +77,7 @@ class Buffer():
         textbox = Textbox(bufscreen)
         textbox.stripspaces = False
         textbox.edit()
-        self.text = bufscreen.instr(0,0)
+        # self.text = bufscreen.instr(0,0) + "\n\n now textbox!\n" + textbox.gather()
+        self.text = gather(textbox)
+        return gather(textbox)
         bufscreen.clear()
