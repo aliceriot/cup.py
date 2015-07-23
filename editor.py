@@ -11,14 +11,14 @@ def gather(textbox):
         textbox.win.move(y, 0)
         stop = textbox._end_of_line(y)
         if stop == 0:
-            continue
+            result = result + "\n"
         for x in range(textbox.maxx+1):
-            if textbox.stripspaces and x >= stop:
+            if x > stop:
                 break
             result = result + chr(curses.ascii.ascii(textbox.win.inch(y, x)))
         if textbox.maxy > 0:
             result = result + "\n"
-    return result
+    return result.strip()
 
 
 class Editor():
