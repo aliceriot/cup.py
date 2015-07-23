@@ -31,6 +31,20 @@ class Editor():
         curses.start_color()
         self.screen.refresh()
 
+    def listen(self):
+        while True:
+            c = self.screen.getch()
+            if c == ord('q'):
+                self.close()
+                break
+            elif c == ord('e'):
+                self.switch_buffer(self.current_buffer)
+            # elif c == ord('b'):
+            #     //switch buffers
+            else:
+                print("umm some sort of error")
+
+
     def editstatus(self):
         status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
         status.addstr("EDIT MODE")
