@@ -37,13 +37,12 @@ class Editor():
             if c == ord('q'):
                 self.close()
                 break
-            elif c == ord('e'):
+            elif c == ord('i'):
                 self.switch_buffer(self.current_buffer)
             # elif c == ord('b'):
             #     //switch buffers
             else:
                 print("umm some sort of error")
-
 
     def editstatus(self):
         status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)

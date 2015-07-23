@@ -5,6 +5,8 @@ import os
 
 ### initialization, create editor object and initialize buffers
 cup = Editor()
+
+# this should be a method too...
 files_to_open = sys.argv[1:]
 for to_open in files_to_open:
     if (os.path.isfile(to_open)):
@@ -17,6 +19,5 @@ for to_open in files_to_open:
 cup.buffer_list(cup.current_buffer)
 cup.switch_buffer(cup.current_buffer)
 
+# the listen method handles the rest!
 cup.listen()
-
-cup.close()
