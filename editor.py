@@ -1,4 +1,5 @@
 import curses
+import os
 from curses.textpad import Textbox, rectangle
 
 def gather(textbox):
@@ -43,6 +44,18 @@ class Editor():
             #     //switch buffers
             else:
                 print("umm some sort of error")
+
+    def initialize(self, files):
+        for to_open in files:
+            if (os.path.isfile(to_open)):
+                with open(to_open) as myfile:
+                    self.add_buffer(to_open, myfile.read())
+            else:
+                self.add_buffer(to_open, '')
+            if self.current_buffer == '':
+                self.current_buffer = to_open
+        self.buffer_list(self.current_buffer)
+        self.switch_buffer(self.current_buffer)
 
     def editstatus(self):
         status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
