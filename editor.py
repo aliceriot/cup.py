@@ -39,9 +39,9 @@ class Editor():
                 self.close()
                 break
             elif c == ord('i'):
-                self.switch_buffer(self.current_buffer)
-            # elif c == ord('b'):
-            #     //switch buffers
+                self.open_buffer(self.current_buffer)
+            elif c == ord('b'):
+                self.switch_buffer()
             else:
                 print("umm some sort of error")
 
@@ -55,7 +55,7 @@ class Editor():
             if self.current_buffer == '':
                 self.current_buffer = to_open
         self.buffer_list(self.current_buffer)
-        self.switch_buffer(self.current_buffer)
+        self.open_buffer(self.current_buffer)
 
     def editstatus(self):
         status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
@@ -96,7 +96,18 @@ class Editor():
         curses.echo()
         curses.endwin()
 
-    def switch_buffer(self, target):
+    def switch_buffer(self):
+        """
+        prompts to a buffer, opens it
+        """
+        prompt = curses.newwin(1, curses.COLS-1, curses.LINES -1, 0)
+        prompt.addstr("BUFFER NAME:")
+        inputbox = Textbox(prompt)
+        inputbox.edit()
+        dest = gather(inputbox)
+        self.open_buffer(dest.split(":")[1])
+
+    def open_buffer(self, target):
         """
         saves current buffer, switches to a new one
         """
