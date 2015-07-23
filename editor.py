@@ -35,6 +35,16 @@ class Editor():
         self.screen.addnstr("test string", 80)
         self.screen.refresh()
 
+    def editstatus(self):
+        status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
+        status.addstr("EDIT MODE")
+        status.refresh()
+
+    def commandstatus(self):
+        status = curses.newwin(1, curses.COLS-1, curses.LINES -1, 0)
+        status.addstr("COMMAND MODE")
+        status.refresh()
+
     def buffer_list(self, active=''):
         """
         puts a list of open buffers at the top
@@ -68,6 +78,7 @@ class Editor():
         """
         saves current buffer, switches to a new one
         """
+        self.editstatus()
         if self.current_buffer == '':
             self.buffers[target].edit_buffer()
             self.current_buffer = target
@@ -75,6 +86,8 @@ class Editor():
             self.buffers[self.current_buffer].save_buffer()
             self.buffers[target].edit_buffer()
             self.current_buffer = target
+        self.commandstatus()
+
 
 class Buffer():
     def __init__(self, filename, text=''):
@@ -82,7 +95,7 @@ class Buffer():
         self.text = text
 
     def edit_buffer(self):
-        bufscreen = curses.newwin(curses.LINES-1, curses.COLS-1, 3,0)
+        bufscreen = curses.newwin(curses.LINES-5, curses.COLS-1, 3,0)
         bufscreen.addstr(self.text)
         textbox = Textbox(bufscreen)
         textbox.edit()
