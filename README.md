@@ -9,4 +9,5 @@ Anyway, do:
 python3 cup.py
 ```
 
-Cup is written in standard library Python, mostly using the [curses](https://docs.python.org/3.4/library/curses.html) library.
+Cup is written in standard library Python, mostly using the
+[curses](https://docs.python.org/3.4/library/curses.html) library.
