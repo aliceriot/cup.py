@@ -16,16 +16,5 @@ for to_open in files_to_open:
     if cup.current_buffer == '':
         cup.current_buffer = to_open
 cup.buffer_list(cup.current_buffer)
-
-
-cup.switch_buffer(sys.argv[1])
-# cup.add_buffer("bloop", "more trial text, just some stuff blah blah bloo bloo")
-# cup.buffer_list()
-# testtext = cup.switch_buffer("blah")
-# # with open("test.txt", "w") as myfile:
-# #     myfile.write(testtext)
-# cup.switch_buffer("bloop")
-# cup.switch_buffer("blah")
+cup.switch_buffer(cup.current_buffer)
 cup.close()
-
-# print(testtext)
