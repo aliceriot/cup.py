@@ -5,13 +5,12 @@ def gather(textbox):
     """
     collect and return the contents of the window.
     modified from the gather provided by the standard library
+    (cause that one doesn't work!)
     """
     result = ""
     for y in range(textbox.maxy+1):
         textbox.win.move(y, 0)
         stop = textbox._end_of_line(y)
-        if stop == 0:
-            result = result + "\n"
         for x in range(textbox.maxx+1):
             if x > stop:
                 break
@@ -25,6 +24,7 @@ class Editor():
     def __init__(self, filename=''):
         self.screen = curses.initscr()
         self.buffers = {}
+        self.current_buffer = ''
         curses.cbreak()
         self.screen.keypad(1)
         curses.noecho()
@@ -55,29 +55,44 @@ class Editor():
 
     def close(self):
         """
+        saves current buffer
         unsets things to make curses friendly
         """
+        self.buffers[self.current_buffer].save_buffer()
         curses.nocbreak()
         self.screen.keypad(0)
         curses.echo()
         curses.endwin()
 
     def switch_buffer(self, target):
-        self.buffers[target].edit_buffer()
+        """
+        saves current buffer, switches to a new one
+        """
+        if self.current_buffer == '':
+            self.buffers[target].edit_buffer()
+            self.current_buffer = target
+        else:
+            self.buffers[self.current_buffer].save_buffer()
+            self.buffers[target].edit_buffer()
+            self.current_buffer = target
 
 class Buffer():
     def __init__(self, filename, text=''):
         self.filename = filename
         self.text = text
-        
 
     def edit_buffer(self):
         bufscreen = curses.newwin(curses.LINES-1, curses.COLS-1, 3,0)
         bufscreen.addstr(self.text)
         textbox = Textbox(bufscreen)
-        textbox.stripspaces = False
         textbox.edit()
-        # self.text = bufscreen.instr(0,0) + "\n\n now textbox!\n" + textbox.gather()
         self.text = gather(textbox)
-        return gather(textbox)
         bufscreen.clear()
+
+    def save_buffer(self):
+        with open(self.filename, "w") as myfile:
+            myfile.write(self.text)
+
+
+
+
