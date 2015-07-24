@@ -58,12 +58,12 @@ class Editor():
         self.open_buffer(self.current_buffer)
 
     def editstatus(self):
-        status = curses.newwin(1, curses.COLS-1, curses.LINES - 1, 0)
-        status.addstr("EDIT MODE")
+        status = self.screen.subwin(1, curses.COLS-1, curses.LINES - 1, 0)
+        status.addstr("EDIT MODE     ")
         status.refresh()
 
     def commandstatus(self):
-        status = curses.newwin(1, curses.COLS-1, curses.LINES -1, 0)
+        status = self.screen.subwin(1, curses.COLS-1, curses.LINES -1, 0)
         status.addstr("COMMAND MODE")
         status.refresh()
 
