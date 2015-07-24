@@ -72,7 +72,7 @@ class Editor():
         puts a list of open buffers at the top
         """
         self.screen.hline(1,0, curses.ACS_HLINE, curses.COLS -1)
-        buflist = curses.newwin(1, curses.COLS-1, 0,1)
+        buflist = self.screen.subwin(1, curses.COLS-1, 0,1)
         bufferlist = []
         if (active == ''):
             bufferlist = ["new file"]
@@ -99,7 +99,7 @@ class Editor():
         """
         prompts to a buffer, opens it
         """
-        prompt = curses.newwin(1, curses.COLS-1, curses.LINES -1, 0)
+        prompt = curses.subwin(1, curses.COLS-1, curses.LINES -1, 0)
         prompt.addstr("BUFFER NAME:")
         inputbox = Textbox(prompt)
         inputbox.edit()
@@ -118,8 +118,8 @@ class Editor():
             self.buffers[self.current_buffer].save_buffer()
             self.buffers[target].edit_buffer()
             self.current_buffer = target
+        self.buffer_list(self.current_buffer)
         self.commandstatus()
-
 
 class Buffer():
     def __init__(self, parentwin, filename, text=''):
@@ -133,7 +133,6 @@ class Buffer():
         textbox = Textbox(bufscreen)
         textbox.edit()
         self.text = gather(textbox)
-        # bufscreen.clear()
 
     def save_buffer(self):
         with open(self.filename, "w") as myfile:
