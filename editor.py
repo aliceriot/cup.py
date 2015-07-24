@@ -54,7 +54,7 @@ class Editor():
                 self.add_buffer(to_open, '')
             if self.current_buffer == '':
                 self.current_buffer = to_open
-        # self.buffer_list(self.current_buffer)
+        self.buffer_list(self.current_buffer)
         self.open_buffer(self.current_buffer)
 
     def editstatus(self):
@@ -82,7 +82,7 @@ class Editor():
         self.screen.refresh()
 
     def add_buffer(self, filename, text):
-        self.buffers[filename] = Buffer(filename, text)
+        self.buffers[filename] = Buffer(self.screen, filename, text)
 
     def close(self):
         """
@@ -122,22 +122,19 @@ class Editor():
 
 
 class Buffer():
-    def __init__(self, filename, text=''):
+    def __init__(self, parentwin, filename, text=''):
         self.filename = filename
         self.text = text
+        self.screen = parentwin
 
     def edit_buffer(self):
-        bufscreen = curses.newwin(curses.LINES-5, curses.COLS-1, 3,0)
+        bufscreen = self.screen.subwin(curses.LINES-5, curses.COLS-1, 3,0)
         bufscreen.addstr(self.text)
         textbox = Textbox(bufscreen)
         textbox.edit()
         self.text = gather(textbox)
-        bufscreen.clear()
+        # bufscreen.clear()
 
     def save_buffer(self):
         with open(self.filename, "w") as myfile:
             myfile.write(self.text)
-
-
-
-
