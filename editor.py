@@ -54,7 +54,7 @@ class Editor():
                 self.add_buffer(to_open, '')
             if self.current_buffer == '':
                 self.current_buffer = to_open
-        self.buffer_list(self.current_buffer)
+        # self.buffer_list(self.current_buffer)
         self.open_buffer(self.current_buffer)
 
     def editstatus(self):
@@ -71,16 +71,15 @@ class Editor():
         """
         puts a list of open buffers at the top
         """
-        rectangle(self.screen, 0,0, 2, curses.COLS -1)
-        self.screen.refresh()
-        buflist = curses.newwin(1, curses.COLS-1, 1,1)
-        buflist.refresh()
+        self.screen.hline(1,0, curses.ACS_HLINE, curses.COLS -1)
+        buflist = curses.newwin(1, curses.COLS-1, 0,1)
         bufferlist = []
         if (active == ''):
             bufferlist = ["new file"]
         bufferlist += list(self.buffers.keys())
         buflist.addstr("buffers:" + " | ".join(bufferlist))
         buflist.refresh()
+        self.screen.refresh()
 
     def add_buffer(self, filename, text):
         self.buffers[filename] = Buffer(filename, text)
